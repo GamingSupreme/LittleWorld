@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "World.h"
 #include "ResourceNode.h"
+#include "TimeController.h"
 
 using namespace std;
 
@@ -85,14 +86,20 @@ int main(int argc, char** arrgv)
 				{
 					quit = true;
 				}
+				if (e.key.keysym.scancode == SDL_SCANCODE_RETURN)
+				{
+					cout << MainHero.playerX << endl;
+				}
 
 			}
 		}
-		MainHero.Move(e);
+		
 		
 		
 		SDL_SetRenderDrawColor(renderer, 170, 170, 170, 255); //rgba(0-255) //Use paint to change color of background, the first three numbers colorate to red green and blue
 		SDL_RenderClear(renderer);
+
+		
 
 		MainWorld.draw();
 		if (RespawnDelay == 50)
@@ -115,10 +122,14 @@ int main(int argc, char** arrgv)
 			}
 
 		}
-		//GenerateTile("Rock", 1, 1, ResourceNodes, MainWorld);
-		MainHero.draw();
+		TimeController::timeController.updateTime();
+		//MainHero.Move(e);
+		//MainHero.draw();
+		MainHero.update(e);
+		TimeController::timeController.reset();
 		
-
+		
+		//TimeController::timeController.reset();
 		SDL_RenderPresent(renderer);
 		RespawnDelay++;
 	}
